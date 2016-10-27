@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<link href="https://fonts.googleapis.com/css?family=Megrim" rel="stylesheet">
+
+	<style>
+		body{
+			background-color: #5CA4A9;
+		}
+		.container{
+			text-align: center;
+			padding-top: 3%;
+		}
+		button{
+			height: 30px;
+			width:30px;
+			background-color: #E6EBE0;
+			border:none;
+			margin: 1px;
+			font-size: 20px;
+			font-family: 'Megrim', cursive;
+		}
+		button:focus{
+			outline:none;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="container"> </div>
+	
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+
+var mark = "X"; 		// mark is either X or O
+var gridSize = 20;		// 10 means 10x10 grid
+
+
+
+makeDaGrid(gridSize)
+
+
+
+// ====================================================================================
+
+
+
+
+
+function makeDaGrid(gridSize){
+	var i=1; //id for each button
+
+	// make the rows
+	for (var x = 1; x <= gridSize; x++){
+
+		$(".container").append(
+			"<div class=row" + x + ">" +
+			"</div")
+
+		// make the columns
+		for (var y = 0; y < gridSize; y++){
+			$(".row"+x).append("<button id=eyeD" + i +  "> &nbsp" + "</button>")
+			i++
+		} // column
+
+	} // row
+
+} // makeDaGrid
+
+
+
+// ====================================================================================
+
+
+
+// mark X or O
+$("button").on("click",function(){
+
+	// checks if space is not marked
+	if ($(this).html() !== "X"    &&    $(this).html() !== "O") {
+
+		// toggles between X and O
+		if (mark === "X"){
+			$(this).html(mark);
+			mark = "O";
+		} else if (mark === "O"){
+			$(this).html(mark);
+			mark = "X";
+		}
+
+		checkDaLogik(gridSize);
+
+	} //if statment
+}) // on click
+
+
+
+
+// ====================================================================================
+
+
+
+
+
+function checkDaLogik(gridSize){
+
+	// CHECK EACH ROW
+		for (var r = 1; r < gridSize * gridSize; r++){
+
+			if (
+				$("#eyeD" + (r + 0)).html() === "X" &&
+				$("#eyeD" + (r + 1)).html() === "X" &&
+				$("#eyeD" + (r + 2)).html() === "X" &&
+				$("#eyeD" + (r + 3)).html() === "X"
+			){
+					console.log("X wins horizontailly")
+					$("#eyeD" + (r + 0)).css("background-color","#5CA4A9");
+					$("#eyeD" + (r + 1)).css("background-color","#5CA4A9");
+					$("#eyeD" + (r + 2)).css("background-color","#5CA4A9");
+					$("#eyeD" + (r + 3)).css("background-color","#5CA4A9");
+			}
+
+
+
+
+			if (
+				$("#eyeD" + (r + 0)).html() === "O" &&
+				$("#eyeD" + (r + 1)).html() === "O" &&
+				$("#eyeD" + (r + 2)).html() === "O" &&
+				$("#eyeD" + (r + 3)).html() === "O"
+			){
+					console.log("O wins horizontaily")
+					$("#eyeD" + (r + 0)).css("background-color","#5CA4A9");
+					$("#eyeD" + (r + 1)).css("background-color","#5CA4A9");
+					$("#eyeD" + (r + 2)).css("background-color","#5CA4A9");
+					$("#eyeD" + (r + 3)).css("background-color","#5CA4A9");
+			}
+
+			// skip the last tree boxes in each columns
+			if ((r+3) % gridSize === 0){
+				r = r + 3;
+			}
+
+		}//for loop
+	
+
+
+
+
+// ====================================================================================
+
+
+
+
+	// CHECK EACH COLUMN
+		// (gridSize * gridSize) - (3 * gridSize) skips last three rows 
+		for (var c = 1; c <= (gridSize * gridSize) - (3 * gridSize); c++){
+			if(
+				$("#eyeD" + (c + 0 * gridSize)).html() === "X" &&
+				$("#eyeD" + (c + 1 * gridSize)).html() === "X" &&
+				$("#eyeD" + (c + 2 * gridSize)).html() === "X" &&
+				$("#eyeD" + (c + 3 * gridSize)).html() === "X"
+			){
+					console.log("X wins vertically")
+					$("#eyeD" + (c + 0 * gridSize)).css("background-color","#5CA4A9");
+					$("#eyeD" + (c + 1 * gridSize)).css("background-color","#5CA4A9");
+					$("#eyeD" + (c + 2 * gridSize)).css("background-color","#5CA4A9");
+					$("#eyeD" + (c + 3 * gridSize)).css("background-color","#5CA4A9");
+			}
+
+
+
+			if(
+				$("#eyeD" + (c + 0 * gridSize)).html() === "O" &&
+				$("#eyeD" + (c + 1 * gridSize)).html() === "O" &&
+				$("#eyeD" + (c + 2 * gridSize)).html() === "O" &&
+				$("#eyeD" + (c + 3 * gridSize)).html() === "O"
+			){
+					console.log("O wins vertically")
+					$("#eyeD" + (c + 0 * gridSize)).css("background-color","#5CA4A9");
+					$("#eyeD" + (c + 1 * gridSize)).css("background-color","#5CA4A9");
+					$("#eyeD" + (c + 2 * gridSize)).css("background-color","#5CA4A9");
+					$("#eyeD" + (c + 3 * gridSize)).css("background-color","#5CA4A9");
+			}
+		}
+
+
+
+
+
+// ====================================================================================
+
+
+
+
+
+	// CHECK DOWNWARD SLANT
+
+		for (var dSlant = 1; dSlant <= (gridSize * gridSize) - (3 * gridSize); dSlant++){
+			if(
+				$("#eyeD" + (0 + dSlant + 0 * gridSize)).html() === "X" &&
+				$("#eyeD" + (1 + dSlant + 1 * gridSize)).html() === "X" &&
+				$("#eyeD" + (2 + dSlant + 2 * gridSize)).html() === "X" &&
+				$("#eyeD" + (3 + dSlant + 3 * gridSize)).html() === "X"
+			){
+					console.log("X wins diagonally down")
+					$("#eyeD" + (0 + dSlant + 0 * gridSize)).css("background-color","#5CA4A9");
+					$("#eyeD" + (1 + dSlant + 1 * gridSize)).css("background-color","#5CA4A9");
+					$("#eyeD" + (2 + dSlant + 2 * gridSize)).css("background-color","#5CA4A9");
+					$("#eyeD" + (3 + dSlant + 3 * gridSize)).css("background-color","#5CA4A9");
+			}
+
+			if(
+				$("#eyeD" + (0 + dSlant + 0 * gridSize)).html() === "O" &&
+				$("#eyeD" + (1 + dSlant + 1 * gridSize)).html() === "O" &&
+				$("#eyeD" + (2 + dSlant + 2 * gridSize)).html() === "O" &&
+				$("#eyeD" + (3 + dSlant + 3 * gridSize)).html() === "O"
+			){
+					console.log("X wins diagonally down")
+					$("#eyeD" + (0 + dSlant + 0 * gridSize)).css("background-color","#5CA4A9");
+					$("#eyeD" + (1 + dSlant + 1 * gridSize)).css("background-color","#5CA4A9");
+					$("#eyeD" + (2 + dSlant + 2 * gridSize)).css("background-color","#5CA4A9");
+					$("#eyeD" + (3 + dSlant + 3 * gridSize)).css("background-color","#5CA4A9");
+			}
+
+			// skip the last tree boxes in each columns
+			if ((dSlant+3) % gridSize === 0){
+				r = r + 3;
+			}
+
+		}
+
+
+
+
+
+// ====================================================================================
+
+
+
+
+
+
+	// CHECK UPWARD SLANT
+		for (var uSlant = 1; uSlant <= (gridSize * gridSize) - (3 * gridSize); uSlant++){
+				if(
+					$("#eyeD" + (0 + uSlant + 0 * gridSize)).html() === "X" &&
+					$("#eyeD" + (-1 + uSlant + 1 * gridSize)).html() === "X" &&
+					$("#eyeD" + (-2 + uSlant + 2 * gridSize)).html() === "X" &&
+					$("#eyeD" + (-3 + uSlant + 3 * gridSize)).html() === "X"
+				){
+						console.log("X wins diagonally up")
+						$("#eyeD" + (0 + uSlant + 0 * gridSize)).css("background-color","#5CA4A9");
+						$("#eyeD" + (-1 + uSlant + 1 * gridSize)).css("background-color","#5CA4A9");
+						$("#eyeD" + (-2 + uSlant + 2 * gridSize)).css("background-color","#5CA4A9");
+						$("#eyeD" + (-3 + uSlant + 3 * gridSize)).css("background-color","#5CA4A9");					
+				}
+
+
+
+				if(
+					$("#eyeD" + (0 + uSlant + 0 * gridSize)).html() === "O" &&
+					$("#eyeD" + (-1 + uSlant + 1 * gridSize)).html() === "O" &&
+					$("#eyeD" + (-2 + uSlant + 2 * gridSize)).html() === "O" &&
+					$("#eyeD" + (-3 + uSlant + 3 * gridSize)).html() === "O"
+				){
+						console.log("X wins diagonally up")
+						$("#eyeD" + (0 + uSlant + 0 * gridSize)).css("background-color","#5CA4A9");
+						$("#eyeD" + (-1 + uSlant + 1 * gridSize)).css("background-color","#5CA4A9");
+						$("#eyeD" + (-2 + uSlant + 2 * gridSize)).css("background-color","#5CA4A9");
+						$("#eyeD" + (-3 + uSlant + 3 * gridSize)).css("background-color","#5CA4A9");					
+				}
+
+		}
+
+
+
+
+}//checkDaLogik
+
+
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
